@@ -31,3 +31,5 @@ RecorderManager.getInstance(ctx)
 
 效果视频：
 http://weibo.com/tv/v/Ej3QbovzH?fid=1034:2d6352468588100d72d33d0d1b9e45c1
+
+
