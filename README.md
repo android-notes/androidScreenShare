@@ -13,7 +13,7 @@
  
 ```java
 
-RecorderManager.getInstance(MainActivity.this)
+RecorderManager.getInstance(ctx)
                         .startRecorder(ctx, 0.5f);
 
 ```
