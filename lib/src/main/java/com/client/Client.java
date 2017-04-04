@@ -23,12 +23,14 @@ import javax.swing.border.EmptyBorder;
 
 public class Client extends JFrame {
     JLabel label;
+    boolean isMove = false;
 
     public Client() throws IOException {
         setLayout(new BorderLayout(0, 0));
 
         JPanel ipPanel = new JPanel(new BorderLayout(5, 5));
         final JTextField ipField = new JTextField();
+        ipField.setText("127.0.0.1");
         ipPanel.add(ipField, BorderLayout.CENTER);
         ipPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -53,8 +55,6 @@ public class Client extends JFrame {
 
         label = new JLabel();
 
-//        Image image = ImageIO.read(new File("/Users/wanjian/Desktop/img.jpg"));
-//        label.setIcon(new ImageIcon(image));
         label.setBorder(new EmptyBorder(5, 5, 5, 5));
         add(panelContainer2, BorderLayout.NORTH);
 
@@ -81,11 +81,13 @@ public class Client extends JFrame {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
-                System.out.println(mouseEvent);
+                System.out.println("down    "+mouseEvent);
                 int x = mouseEvent.getX();
                 int y = mouseEvent.getY();
                 try {
-                    writer.write("DOWN"+(x*1.0f/label.getWidth() )+ "#" + (y*1.0f/label.getHeight()));
+                    writer.write("DOWN" + (x * 1.0f / label.getWidth()) + "#" + (y * 1.0f / label.getHeight()));
+                    writer.newLine();
+                    writer.write("UP" + (x * 1.0f / label.getWidth()) + "#" + (y * 1.0f / label.getHeight()));
                     writer.newLine();
                     writer.flush();
                 } catch (Exception e) {
@@ -96,13 +98,14 @@ public class Client extends JFrame {
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
-                System.out.println("mouseReleased " );
+                System.out.println("up   mouseReleased");
                 try {
                     int x = mouseEvent.getX();
                     int y = mouseEvent.getY();
-                    writer.write("UP"+(x*1.0f/label.getWidth() )+ "#" + (y*1.0f/label.getHeight()));
+                    writer.write("UP" + (x * 1.0f / label.getWidth()) + "#" + (y * 1.0f / label.getHeight()));
                     writer.newLine();
                     writer.flush();
+                    isMove = false;
                 } catch (Exception e) {
 
                 }
@@ -112,11 +115,19 @@ public class Client extends JFrame {
             @Override
             public void mouseDragged(MouseEvent mouseEvent) {
                 super.mouseDragged(mouseEvent);
-                System.out.println("mouseDragged "+mouseEvent.getX()+"  "+mouseEvent.getY());
                 try {
                     int x = mouseEvent.getX();
                     int y = mouseEvent.getY();
-                    writer.write("MOVE"+(x*1.0f/label.getWidth() )+ "#" + (y*1.0f/label.getHeight()));
+                    if (!isMove) {
+                        isMove = true;
+                        System.out.println("down  mouseDragged " + mouseEvent.getX() + "  " + mouseEvent.getY());
+
+                        writer.write("DOWN" + (x * 1.0f / label.getWidth()) + "#" + (y * 1.0f / label.getHeight()));
+                    } else {
+                        System.out.println("move   mouseDragged " + mouseEvent.getX() + "  " + mouseEvent.getY());
+
+                        writer.write("MOVE" + (x * 1.0f / label.getWidth()) + "#" + (y * 1.0f / label.getHeight()));
+                    }
                     writer.newLine();
                     writer.flush();
                 } catch (Exception e) {
@@ -126,19 +137,7 @@ public class Client extends JFrame {
 
 
         });
-//        label.addMouseWheelListener(new MyMouseAdapter(){
-//            @Override
-//            public void mouseWheelMoved(MouseWheelEvent mouseWheelEvent) {
-//                super.mouseWheelMoved(mouseWheelEvent);
-//                System.out.println("mouseWheelMoved  "+mouseWheelEvent);
-//            }
-//
-//            //            @Override
-////            public void mouseDragged(MouseEvent mouseEvent) {
-////                super.mouseDragged(mouseEvent);
-////                System.out.println("mouseDragged");
-////            }
-//        });
+
 
     }
 
@@ -177,7 +176,7 @@ public class Client extends JFrame {
                         label.setIcon(new ScaleIcon(new ImageIcon(image)));
                         long s3 = System.currentTimeMillis();
 
-                    //    System.out.println("读取: " + (s2 - s1) + "    解码: " + (s3 - s2) + "  " + length);
+                        //    System.out.println("读取: " + (s2 - s1) + "    解码: " + (s3 - s2) + "  " + length);
                     }
 
                 } catch (IOException e) {
