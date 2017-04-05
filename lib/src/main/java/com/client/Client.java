@@ -38,6 +38,7 @@ public class Client extends JFrame {
         final JTextField portField = new JTextField();
         portPanel.add(portField, BorderLayout.CENTER);
         portPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        portField.setText("8888");
 
         JPanel btnPanel = new JPanel(new BorderLayout(5, 5));
         JButton btn = new JButton("链接");
@@ -60,6 +61,8 @@ public class Client extends JFrame {
 
         add(label, BorderLayout.CENTER);
 
+        add(createTableBar(), BorderLayout.SOUTH);
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBounds(360, 20, 350, 600);
 
@@ -81,7 +84,7 @@ public class Client extends JFrame {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
-                System.out.println("down    "+mouseEvent);
+                System.out.println("down    " + mouseEvent);
                 int x = mouseEvent.getX();
                 int y = mouseEvent.getY();
                 try {
@@ -138,6 +141,59 @@ public class Client extends JFrame {
 
         });
 
+
+    }
+
+    private JPanel createTableBar() {
+        JPanel bar = new JPanel(new BorderLayout());
+        JButton menu = new JButton("menu");
+        JButton home = new JButton("home");
+        JButton back = new JButton("back");
+
+        bar.add(menu, BorderLayout.WEST);
+        bar.add(home, BorderLayout.CENTER);
+        bar.add(back, BorderLayout.EAST);
+
+        menu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                try {
+                    writer.write("MENU");
+                    writer.newLine();
+                    writer.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        home.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                try {
+                    writer.write("HOME");
+                    writer.newLine();
+                    writer.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        back.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                try {
+                    writer.write("BACK");
+                    writer.newLine();
+                    writer.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return bar;
 
     }
 

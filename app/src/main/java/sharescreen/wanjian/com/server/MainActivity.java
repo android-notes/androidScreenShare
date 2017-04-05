@@ -1,12 +1,16 @@
 package sharescreen.wanjian.com.server;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.wanjian.puppet.Main;
 
 import java.util.Date;
 
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 sendEmptyMessageDelayed(0,1000);
             }
         }.sendEmptyMessage(0);
+
 
 
     }

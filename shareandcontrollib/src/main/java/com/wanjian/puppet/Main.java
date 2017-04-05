@@ -58,7 +58,6 @@ public class Main {
 
     private static void init() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-        System.out.println("init...");
         Method getServiceMethod = Class.forName("android.os.ServiceManager").getDeclaredMethod("getService", new Class[]{String.class});
         wm = IWindowManager.Stub.asInterface((IBinder) getServiceMethod.invoke(null, new Object[]{"window"}));
 
@@ -66,7 +65,6 @@ public class Main {
         MotionEvent.class.getDeclaredMethod("obtain", new Class[0]).setAccessible(true);
         injectInputEventMethod = InputManager.class.getMethod("injectInputEvent", new Class[]{InputEvent.class, Integer.TYPE});
 
-        System.out.println("init finished...");
     }
 
     private static void acceptConnect(LocalSocket socket) {
@@ -107,6 +105,10 @@ public class Main {
             private final String MOVE = "MOVE";
             private final String UP = "UP";
 
+            private final String MENU = "MENU";
+            private final String HOME = "HOME";
+            private final String BACK = "BACK";
+
             @Override
             public void run() {
                 super.run();
@@ -126,11 +128,16 @@ public class Main {
                         try {
                             if (line.startsWith(DOWN)) {
                                 hanlerDown(line.substring(DOWN.length()));
-//                                hanlerUp(line.substring(DOWN.length()));
                             } else if (line.startsWith(MOVE)) {
                                 hanlerMove(line.substring(MOVE.length()));
                             } else if (line.startsWith(UP)) {
                                 hanlerUp(line.substring(UP.length()));
+                            } else if (line.startsWith(MENU)) {
+                                menu();
+                            } else if (line.startsWith(HOME)) {
+                                pressHome();
+                            } else if (line.startsWith(BACK)) {
+                                back();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -208,12 +215,14 @@ public class Main {
 
         String surfaceClassName;
         Point size = SurfaceControlVirtualDisplayFactory.getCurrentDisplaySize(false);
+        Bitmap b = null;
         if (Build.VERSION.SDK_INT <= 17) {
             surfaceClassName = "android.view.Surface";
         } else {
             surfaceClassName = "android.view.SurfaceControl";
+            //  b = android.view.SurfaceControl.screenshot(size.x, size.y);
         }
-        Bitmap b = (Bitmap) Class.forName(surfaceClassName).getDeclaredMethod("screenshot", new Class[]{Integer.TYPE, Integer.TYPE}).invoke(null, new Object[]{Integer.valueOf(size.x), Integer.valueOf(size.y)});
+        b = (Bitmap) Class.forName(surfaceClassName).getDeclaredMethod("screenshot", new Class[]{Integer.TYPE, Integer.TYPE}).invoke(null, new Object[]{Integer.valueOf(size.x), Integer.valueOf(size.y)});
         int rotation = wm.getRotation();
         if (rotation == 0) {
             return b;
@@ -229,6 +238,9 @@ public class Main {
         return Bitmap.createBitmap(b, 0, 0, size.x, size.y, m, false);
     }
 
+    private static void menu() throws InvocationTargetException, IllegalAccessException {
+        sendKeyEvent(im, injectInputEventMethod, InputDeviceCompat.SOURCE_KEYBOARD, KeyEvent.KEYCODE_MENU, false);
+    }
 
     private static void back() throws InvocationTargetException, IllegalAccessException {
         sendKeyEvent(im, injectInputEventMethod, InputDeviceCompat.SOURCE_KEYBOARD, 4, false);
