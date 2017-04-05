@@ -1,6 +1,7 @@
 package com.wanjian.puppet;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.hardware.input.InputManager;
@@ -41,6 +42,8 @@ public class Main {
 
     private static IWindowManager wm;
 
+    private static float scale = 1;
+
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException {
 
         System.out.println("start!");
@@ -50,8 +53,13 @@ public class Main {
 
         while (true) {
             System.out.println("listen.....");
-            LocalSocket socket = serverSocket.accept();
-            acceptConnect(socket);
+            try {
+                LocalSocket socket = serverSocket.accept();
+                acceptConnect(socket);
+            } catch (Exception e) {
+                serverSocket = new LocalServerSocket("puppet-ver1");
+            }
+
         }
 
     }
@@ -109,6 +117,8 @@ public class Main {
             private final String HOME = "HOME";
             private final String BACK = "BACK";
 
+            private final String DEGREE = "DEGREE";
+
             @Override
             public void run() {
                 super.run();
@@ -131,13 +141,15 @@ public class Main {
                             } else if (line.startsWith(MOVE)) {
                                 hanlerMove(line.substring(MOVE.length()));
                             } else if (line.startsWith(UP)) {
-                                hanlerUp(line.substring(UP.length()));
+                                handlerUp(line.substring(UP.length()));
                             } else if (line.startsWith(MENU)) {
                                 menu();
                             } else if (line.startsWith(HOME)) {
                                 pressHome();
                             } else if (line.startsWith(BACK)) {
                                 back();
+                            } else if (line.startsWith(DEGREE)) {
+                                scale = Float.parseFloat(line.substring(DEGREE.length())) / 100;
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -153,7 +165,7 @@ public class Main {
         }.start();
     }
 
-    private static void hanlerUp(String line) {
+    private static void handlerUp(String line) {
         Point point = getXY(line);
         if (point != null) {
             try {
@@ -195,7 +207,6 @@ public class Main {
             float scaleY = Float.parseFloat(s[1]);
             point.x *= scaleX;
             point.y *= scaleY;
-            System.out.println("point  x=" + point.x + "   y=" + point.y);
             return point;
         } catch (Exception e) {
             e.printStackTrace();
@@ -211,10 +222,13 @@ public class Main {
         outputStream.write(v);
     }
 
+
     public static Bitmap screenshot() throws Exception {
 
         String surfaceClassName;
         Point size = SurfaceControlVirtualDisplayFactory.getCurrentDisplaySize(false);
+        size.x *= scale;
+        size.y *= scale;
         Bitmap b = null;
         if (Build.VERSION.SDK_INT <= 17) {
             surfaceClassName = "android.view.Surface";
@@ -223,7 +237,9 @@ public class Main {
             //  b = android.view.SurfaceControl.screenshot(size.x, size.y);
         }
         b = (Bitmap) Class.forName(surfaceClassName).getDeclaredMethod("screenshot", new Class[]{Integer.TYPE, Integer.TYPE}).invoke(null, new Object[]{Integer.valueOf(size.x), Integer.valueOf(size.y)});
+
         int rotation = wm.getRotation();
+
         if (rotation == 0) {
             return b;
         }
@@ -236,6 +252,7 @@ public class Main {
             m.postRotate(-270.0f);
         }
         return Bitmap.createBitmap(b, 0, 0, size.x, size.y, m, false);
+
     }
 
     private static void menu() throws InvocationTargetException, IllegalAccessException {
@@ -248,17 +265,14 @@ public class Main {
 
 
     private static void touchUp(float clientX, float clientY) throws InvocationTargetException, IllegalAccessException {
-        System.out.println("up " + clientX + "  " + clientY);
         injectMotionEvent(im, injectInputEventMethod, InputDeviceCompat.SOURCE_TOUCHSCREEN, 1, downTime, SystemClock.uptimeMillis(), clientX, clientY, 1.0f);
     }
 
     private static void touchMove(float clientX, float clientY) throws InvocationTargetException, IllegalAccessException {
-        System.out.println("move " + clientX + "  " + clientY);
         injectMotionEvent(im, injectInputEventMethod, InputDeviceCompat.SOURCE_TOUCHSCREEN, 2, downTime, SystemClock.uptimeMillis(), clientX, clientY, 1.0f);
     }
 
     private static void touchDown(float clientX, float clientY) throws InvocationTargetException, IllegalAccessException {
-        System.out.println("down " + clientX + "  " + clientY);
         downTime = SystemClock.uptimeMillis();
         injectMotionEvent(im, injectInputEventMethod, InputDeviceCompat.SOURCE_TOUCHSCREEN, 0, downTime, downTime, clientX, clientY, 1.0f);
 

@@ -18,8 +18,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Client extends JFrame {
     JLabel label;
@@ -44,6 +47,8 @@ public class Client extends JFrame {
         JButton btn = new JButton("链接");
         btnPanel.add(btn, BorderLayout.CENTER);
 
+        JSlider  jSlider=createSlider();
+        btnPanel.add(jSlider,BorderLayout.SOUTH);
 
         JPanel panelContainer = new JPanel(new BorderLayout());
         panelContainer.add(ipPanel, BorderLayout.NORTH);
@@ -66,7 +71,7 @@ public class Client extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBounds(360, 20, 350, 600);
 
-        setTitle("屏幕共享 by 万剑");
+        setTitle("屏幕共享");
         btn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -84,7 +89,7 @@ public class Client extends JFrame {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
-                System.out.println("down    " + mouseEvent);
+//                System.out.println("down    " + mouseEvent);
                 int x = mouseEvent.getX();
                 int y = mouseEvent.getY();
                 try {
@@ -101,7 +106,7 @@ public class Client extends JFrame {
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
-                System.out.println("up   mouseReleased");
+//                System.out.println("up   mouseReleased");
                 try {
                     int x = mouseEvent.getX();
                     int y = mouseEvent.getY();
@@ -123,11 +128,11 @@ public class Client extends JFrame {
                     int y = mouseEvent.getY();
                     if (!isMove) {
                         isMove = true;
-                        System.out.println("down  mouseDragged " + mouseEvent.getX() + "  " + mouseEvent.getY());
+//                        System.out.println("down  mouseDragged " + mouseEvent.getX() + "  " + mouseEvent.getY());
 
                         writer.write("DOWN" + (x * 1.0f / label.getWidth()) + "#" + (y * 1.0f / label.getHeight()));
                     } else {
-                        System.out.println("move   mouseDragged " + mouseEvent.getX() + "  " + mouseEvent.getY());
+//                        System.out.println("move   mouseDragged " + mouseEvent.getX() + "  " + mouseEvent.getY());
 
                         writer.write("MOVE" + (x * 1.0f / label.getWidth()) + "#" + (y * 1.0f / label.getHeight()));
                     }
@@ -142,6 +147,29 @@ public class Client extends JFrame {
         });
 
 
+    }
+
+    private JSlider createSlider() {
+        int minimum = 30;
+        int maximum = 100;
+        JSlider  slider = new JSlider(minimum, maximum,maximum);
+
+        slider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                try {
+                    int v=((JSlider) changeEvent.getSource()).getValue();
+                    writer.write("DEGREE"+v);
+                    writer.newLine();
+                    writer.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        return slider;
     }
 
     private JPanel createTableBar() {
