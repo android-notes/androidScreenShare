@@ -89,7 +89,6 @@ public class Client extends JFrame {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
-//                System.out.println("down    " + mouseEvent);
                 int x = mouseEvent.getX();
                 int y = mouseEvent.getY();
                 try {
@@ -106,7 +105,6 @@ public class Client extends JFrame {
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
                 super.mouseReleased(mouseEvent);
-//                System.out.println("up   mouseReleased");
                 try {
                     int x = mouseEvent.getX();
                     int y = mouseEvent.getY();
@@ -128,11 +126,9 @@ public class Client extends JFrame {
                     int y = mouseEvent.getY();
                     if (!isMove) {
                         isMove = true;
-//                        System.out.println("down  mouseDragged " + mouseEvent.getX() + "  " + mouseEvent.getY());
 
                         writer.write("DOWN" + (x * 1.0f / label.getWidth()) + "#" + (y * 1.0f / label.getHeight()));
                     } else {
-//                        System.out.println("move   mouseDragged " + mouseEvent.getX() + "  " + mouseEvent.getY());
 
                         writer.write("MOVE" + (x * 1.0f / label.getWidth()) + "#" + (y * 1.0f / label.getHeight()));
                     }
@@ -260,7 +256,6 @@ public class Client extends JFrame {
                         label.setIcon(new ScaleIcon(new ImageIcon(image)));
                         long s3 = System.currentTimeMillis();
 
-                        //    System.out.println("读取: " + (s2 - s1) + "    解码: " + (s3 - s2) + "  " + length);
                     }
 
                 } catch (IOException e) {
