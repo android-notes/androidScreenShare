@@ -41,8 +41,7 @@ MGJwanjian:~ wanjian$ adb forward tcp:8888 localabstract:puppet-ver1
 
 ### 效果视频
 
-[http://weibo.com/tv/v/ED0e0pY2t?fid=1034:1e4fba6695c16e041b279b82068ab06e](http://weibo.com/tv/v/ED0e0pY2t?fid=1034:1e4fba6695c16e041b279b82068ab06e)
-
+[https://github.com/android-notes/androidScreenShareAndControl/blob/master/%E6%95%88%E6%9E%9C%E8%A7%86%E9%A2%91.mp4](https://github.com/android-notes/androidScreenShareAndControl/blob/master/%E6%95%88%E6%9E%9C%E8%A7%86%E9%A2%91.mp4)
 
 
 
