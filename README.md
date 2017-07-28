@@ -185,3 +185,24 @@ public interface IRotationWatcher {
 [https://github.com/android-notes/androidScreenShareAndControl](https://github.com/android-notes/androidScreenShareAndControl)
 
 
+### 附 编译class和打包dex方式：
+
+最简单的方式：
+在`android studio`中右击`com.wanjian.puppet.Main`这个文件，选择 `run Main.main()`，编译后的class文件就会自动保存到  
+`androidScreenShareAndControl/shareandcontrollib/build/intermediates/classes/debug` 这个目录中 
+
+
+方式2：
+把 `android sdk`目录下的`android.jar`和`supportv4.jar`拷贝到   
+`androidScreenShareAndControl/shareandcontrollib/src/main/java`
+目录下，同时在这个目录下新建`classes`文件夹，用于保存编译后的class文件，并把命令行切换到这个目录
+执行如下命令，其中`android.jar`和`support-v4-23.4.0-sources.jar` 是`android sdk`中的`jar`包,一个在`platforms/android-xx`文件夹下，一个在`extras/android/m2repository/com/android/support/support-v4`下
+中间用:分割，windows的话需要用;分割
+
+`javac -cp android.jar:support-v4-23.4.0-sources.jar:./  com/wanjian/puppet/Main.java  -d classes`
+
+这样就会在classes文件夹中生成class文件了 (JDK版本不能太高，不然会提示 unsupported class file version 52.0)
+
+
+
+
