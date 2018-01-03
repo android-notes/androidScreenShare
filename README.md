@@ -1,6 +1,7 @@
 
 ### 免root兼容所有Android版本屏幕共享及远程控制。
-
+### 效果
+![demo](https://github.com/android-notes/androidScreenShareAndControl/blob/master/demo.gif?raw=true)
 ### 使用方式
 
 对于mac 笔记本用户：
