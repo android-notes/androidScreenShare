@@ -215,7 +215,7 @@ public interface IRotationWatcher {
 
 然后使用 `dx  --dex --output=Main.dex ./`命令生成dex文件。dx命令文件在 `sdk/build-tools/版本号` 下
 
-
+![dex](https://raw.githubusercontent.com/android-notes/androidScreenShareAndControl/master/dex-package.png)
 
 
 
