@@ -186,7 +186,7 @@ public interface IRotationWatcher {
 [https://github.com/android-notes/androidScreenShareAndControl](https://github.com/android-notes/androidScreenShareAndControl)
 
 
-### 附 编译class和打包dex方式：
+### 附 编译class方式：
 
 最简单的方式：
 在`android studio`中右击`com.wanjian.puppet.Main`这个文件，选择 `run Main.main()`，编译后的class文件就会自动保存到  
@@ -207,5 +207,15 @@ public interface IRotationWatcher {
 * 这样就会在classes文件夹中生成class文件了 (JDK版本不能太高，不然会提示 unsupported class file version 52.0)
 
 ![img](https://raw.githubusercontent.com/android-notes/blogimg/master/%E6%89%93%E5%8C%85class%E5%92%8Cdex.png)
+
+
+### 打包dex方式：
+首先命令窗口切换到 `androidScreenShareAndControl/shareandcontrollib/build/intermediates/classes/debug` 目录下，可以看到
+所有编译生成的class文件，如果没有先执行上面步骤生成class文件。
+
+然后使用 `dx  --dex --output=Main.dex ./`命令生成dex文件。dx命令文件在 `sdk/build-tools/版本号` 下
+
+
+
 
 
