@@ -21,7 +21,7 @@
 * 新建命令窗口，然后执行 `adb forward tcp:8888 localabstract:puppet-ver1`
 * 运行lib目录下的Client，用于显示和控制,点击连接按钮即可
 
-
+注意：高版本的android手机需要去开发者选项中开启 允许模拟点击
 
 完整命令如下
 ```html
