@@ -21,7 +21,7 @@
 * 新建命令窗口，然后执行 `adb forward tcp:8888 localabstract:puppet-ver1`
 * 运行lib目录下的Client，用于显示和控制,点击连接按钮即可
 
-
+注意：高版本的android手机需要去开发者选项中开启 允许模拟点击
 
 完整命令如下
 ```html
@@ -215,7 +215,7 @@ public interface IRotationWatcher {
 
 然后使用 `dx  --dex --output=Main.dex ./`命令生成dex文件。dx命令文件在 `sdk/build-tools/版本号` 下
 
-
+![dex](https://raw.githubusercontent.com/android-notes/androidScreenShareAndControl/master/dex-package.png)
 
 
 
