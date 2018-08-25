@@ -41,6 +41,14 @@ public class Main {
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException {
 
         System.out.println("start!");
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                System.out.println(e.getMessage());
+            }
+        });
+
         LocalServerSocket serverSocket = new LocalServerSocket("puppet-ver1");
 
         init();
@@ -51,6 +59,7 @@ public class Main {
                 LocalSocket socket = serverSocket.accept();
                 acceptConnect(socket);
             } catch (Exception e) {
+                System.out.println(e.getMessage());
                 serverSocket = new LocalServerSocket("puppet-ver1");
             }
 
@@ -93,8 +102,8 @@ public class Main {
                         outputStream.write(byteArrayOutputStream.toByteArray());
                         outputStream.flush();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Throwable e) {
+                    System.out.println(e.getMessage());
                 }
             }
         }.start();
@@ -126,7 +135,7 @@ public class Main {
                                 return;
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            System.out.println(e.getMessage());
                             return;
                         }
                         try {
@@ -146,13 +155,13 @@ public class Main {
                                 scale = Float.parseFloat(line.substring(DEGREE.length())) / 100;
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            System.out.println(e.getMessage());
                         }
 
 
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Throwable e) {
+                    System.out.println(e.getMessage());
                 }
 
             }
@@ -165,7 +174,7 @@ public class Main {
             try {
                 touchUp(point.x, point.y);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -176,7 +185,7 @@ public class Main {
             try {
                 touchMove(point.x, point.y);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -187,7 +196,7 @@ public class Main {
             try {
                 touchDown(point.x, point.y);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -203,7 +212,7 @@ public class Main {
             point.y *= scaleY;
             return point;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -232,19 +241,19 @@ public class Main {
         }
         b = (Bitmap) Class.forName(surfaceClassName).getDeclaredMethod("screenshot", new Class[]{Integer.TYPE, Integer.TYPE}).invoke(null, new Object[]{Integer.valueOf(size.x), Integer.valueOf(size.y)});
 
-        int rotation = wm.getRotation();
-
-        if (rotation == 0) {
-            return b;
-        }
+//        int rotation = wm.getRotation();
+//
+//        if (rotation == 0) {
+//            return b;
+//        }
         Matrix m = new Matrix();
-        if (rotation == 1) {
-            m.postRotate(-90.0f);
-        } else if (rotation == 2) {
-            m.postRotate(-180.0f);
-        } else if (rotation == 3) {
-            m.postRotate(-270.0f);
-        }
+//        if (rotation == 1) {
+//            m.postRotate(-90.0f);
+//        } else if (rotation == 2) {
+//            m.postRotate(-180.0f);
+//        } else if (rotation == 3) {
+//            m.postRotate(-270.0f);
+//        }
         return Bitmap.createBitmap(b, 0, 0, size.x, size.y, m, false);
 
     }

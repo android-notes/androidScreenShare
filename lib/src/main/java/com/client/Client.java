@@ -27,6 +27,7 @@ import javax.swing.event.ChangeListener;
 public class Client extends JFrame {
     JLabel label;
     boolean isMove = false;
+    JLabel tips;
 
     public Client() throws IOException {
         setLayout(new BorderLayout(0, 0));
@@ -45,10 +46,16 @@ public class Client extends JFrame {
 
         JPanel btnPanel = new JPanel(new BorderLayout(5, 5));
         JButton btn = new JButton("链接");
-        btnPanel.add(btn, BorderLayout.CENTER);
+        btnPanel.add(btn, BorderLayout.NORTH);
 
-        JSlider  jSlider=createSlider();
-        btnPanel.add(jSlider,BorderLayout.SOUTH);
+        tips = new JLabel();
+        tips.setBorder(new EmptyBorder(0, 8, 0, 0));
+        tips.setText("清晰度 100%");
+        btnPanel.add(tips, BorderLayout.CENTER);
+
+
+        JSlider jSlider = createSlider();
+        btnPanel.add(jSlider, BorderLayout.SOUTH);
 
         JPanel panelContainer = new JPanel(new BorderLayout());
         panelContainer.add(ipPanel, BorderLayout.NORTH);
@@ -148,14 +155,15 @@ public class Client extends JFrame {
     private JSlider createSlider() {
         int minimum = 30;
         int maximum = 100;
-        JSlider  slider = new JSlider(minimum, maximum,maximum);
+        JSlider slider = new JSlider(minimum, maximum, maximum);
 
         slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent changeEvent) {
                 try {
-                    int v=((JSlider) changeEvent.getSource()).getValue();
-                    writer.write("DEGREE"+v);
+                    int v = ((JSlider) changeEvent.getSource()).getValue();
+                    tips.setText("清晰度 " + v + "%");
+                    writer.write("DEGREE" + v);
                     writer.newLine();
                     writer.flush();
                 } catch (Exception e) {

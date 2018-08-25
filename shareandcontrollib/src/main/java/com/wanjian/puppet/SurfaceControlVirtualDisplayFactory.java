@@ -33,7 +33,7 @@ public class SurfaceControlVirtualDisplayFactory implements VirtualDisplayFactor
             if (VERSION.SDK_INT >= 18) {
                 wm = Stub.asInterface((IBinder) getServiceMethod.invoke(null, new Object[]{"window"}));
                 wm.getInitialDisplaySize(0, displaySize);
-                rotation = wm.getRotation();
+//                rotation = wm.getRotation();
             } else if (VERSION.SDK_INT == 17) {
                 DisplayInfo di = IDisplayManager.Stub.asInterface((IBinder) getServiceMethod.invoke(null, new Object[]{"display"})).getDisplayInfo(0);
                 displaySize.x = ((Integer) DisplayInfo.class.getDeclaredField("logicalWidth").get(di)).intValue();
@@ -42,13 +42,13 @@ public class SurfaceControlVirtualDisplayFactory implements VirtualDisplayFactor
             } else {
                 wm = Stub.asInterface((IBinder) getServiceMethod.invoke(null, new Object[]{"window"}));
                 wm.getRealDisplaySize(displaySize);
-                rotation = wm.getRotation();
+//                rotation = wm.getRotation();
             }
-            if ((rotate && rotation == 1) || rotation == 3) {
-                int swap = displaySize.x;
-                displaySize.x = displaySize.y;
-                displaySize.y = swap;
-            }
+//            if ((rotate && rotation == 1) || rotation == 3) {
+//                int swap = displaySize.x;
+//                displaySize.x = displaySize.y;
+//                displaySize.y = swap;
+//            }
             return displaySize;
         } catch (Exception e) {
             throw new AssertionError(e);

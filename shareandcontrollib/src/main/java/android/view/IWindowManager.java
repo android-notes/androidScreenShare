@@ -10,7 +10,7 @@ import android.os.IBinder;
 public interface IWindowManager {
     void getInitialDisplaySize(int i, Point displaySize);
 
-    int getRotation();
+//    int getRotation();
 
     void getRealDisplaySize(Point displaySize);
 
