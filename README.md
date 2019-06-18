@@ -210,7 +210,7 @@ public interface IRotationWatcher {
 
 
 ### 打包dex方式：
-首先命令窗口切换到 `androidScreenShareAndControl/shareandcontrollib/build/intermediates/classes/debug` 目录下，可以看到
+首先命令窗口切换到 `/androidScreenShareAndControl/shareandcontrollib/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes` 目录下，可以看到
 所有编译生成的class文件，如果没有先执行上面步骤生成class文件。
 
 然后使用 `dx  --dex --output=Main.dex ./`命令生成dex文件。dx命令文件在 `sdk/build-tools/版本号` 下

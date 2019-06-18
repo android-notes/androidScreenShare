@@ -16,8 +16,8 @@ public interface IWindowManager {
 
     abstract class Stub {
 
-         public static IWindowManager asInterface(IBinder invoke) {
-             return null;
-         }
-     }
+        public static IWindowManager asInterface(IBinder invoke) {
+            return null;
+        }
+    }
 }

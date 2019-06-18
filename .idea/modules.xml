@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/androidScreenShareAndControl.iml" filepath="$PROJECT_DIR$/androidScreenShareAndControl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidScreenShareAndControl.iml" filepath="$PROJECT_DIR$/androidScreenShareAndControl.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shareandcontrollib/shareandcontrollib.iml" filepath="$PROJECT_DIR$/shareandcontrollib/shareandcontrollib.iml" />
       <module fileurl="file://$PROJECT_DIR$/shareandcontrollib/shareandcontrollib.iml" filepath="$PROJECT_DIR$/shareandcontrollib/shareandcontrollib.iml" />
     </modules>
   </component>
